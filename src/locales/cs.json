@@ -1,3 +1,13 @@
 {
-    "help": "Ez a súgószöveg."
+    "help": "**VCLogBot Nápověda**\n\nTento bot poskytuje systém úrovní za hlasové/video hovory na vašem serveru!\n\n**Jak to funguje:**\n- Získávejte úrovně trávením času ve hlasových nebo video hovorech.\n- Každá nová úroveň vyžaduje více času v hovorech.\n- Většina funkcí je automatická—stačí se připojit k hovoru a začít získávat úrovně!\n\n**Příkazy:**\n- `/stats` — Zobrazení vašich vlastních statistik a postupu úrovní.\n- `/leaderboard` — Zobrazí top 10 uživatelů s nejvíce časem ve VC.\n\nUžijte si chatování a sledujte, kdo stoupá v žebříčku!",
+    "stats_not_found": "Statistiky nebyly nalezeny pro {user}.",
+    "stats_reply": "Statistiky hlasu pro {user}:\n- Celkový čas: **{time}**\n- Úroveň: **{level}**{next}",
+    "stats_next_level": "\n- Čas do další úrovně (**{level}**): <t:{timestamp}:R>",
+    "stats_next_level_static": "\n- Čas do další úrovně (**{level}**): **{time}**",
+    "stats_last_seen": "\n- Naposledy viděn ve hlasu: <t:{lastseen}:R>",
+    "stats_max_level": "\n- Dosáhli jste maximální úrovně!",
+    "stats_error": "Chyba při získávání statistik.",
+    "leaderboard_not_found": "Data žebříčku nebyla nalezena.",
+    "leaderboard_reply": "Top 10 hlasový žebříček:\n{leaderboard}",
+    "leaderboard_error": "Chyba při získávání žebříčku."
 }

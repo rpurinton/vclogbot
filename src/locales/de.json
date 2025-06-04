@@ -1,3 +1,13 @@
 {
-    "help": "Dies ist der Hilfetext."
+    "help": "**VCLogBot Hilfe**\n\nDieser Bot bietet ein VC (Voice/Video-Chat) Level-System für deinen Server!\n\n**Wie es funktioniert:**\n- Verdiene Level, indem du Zeit in Voice- oder Videoanrufen verbringst.\n- Jedes neue Level erfordert mehr Zeit in Anrufen, um es zu erreichen.\n- Die meisten Funktionen sind automatisch – tritt einfach einem Anruf bei und steigere dein Level!\n\n**Befehle:**\n- `/stats` — Zeige deine eigenen VC-Statistiken und Level-Fortschritt an.\n- `/leaderboard` — Sieh die Top 10 Nutzer mit der meisten VC-Zeit.\n\nViel Spaß beim Chatten und sieh, wer die Bestenliste erklimmt!",
+    "stats_not_found": "Keine Statistiken für {user} gefunden.",
+    "stats_reply": "{user} Sprachstatistiken:\n- Gesamtzeit: **{time}**\n- Level: **{level}**{next}",
+    "stats_next_level": "\n- Zeit bis zum nächsten Level (**{level}**): <t:{timestamp}:R>",
+    "stats_next_level_static": "\n- Zeit bis zum nächsten Level (**{level}**): **{time}**",
+    "stats_last_seen": "\n- Zuletzt im Voice gesehen: <t:{lastseen}:R>",
+    "stats_max_level": "\n- Du hast das maximale Level erreicht!",
+    "stats_error": "Fehler beim Abrufen der Statistiken.",
+    "leaderboard_not_found": "Keine Daten für die Bestenliste gefunden.",
+    "leaderboard_reply": "Top 10 Sprach-Bestenliste:\n{leaderboard}",
+    "leaderboard_error": "Fehler beim Abrufen der Bestenliste."
 }

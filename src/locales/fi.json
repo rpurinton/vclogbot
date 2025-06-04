@@ -1,3 +1,13 @@
 {
-    "help": "Tämä on ohjeteksti."
+    "help": "**VCLogBot Ohjeet**\n\nTämä botti tarjoaa äänipuhelu- ja videochatin (VC) tasonnousujärjestelmän serverillesi!\n\n**Miten se toimii:**\n- Saat tasoja viettämällä aikaa äänipuheluissa tai videoissa.\n- Jokainen uusi taso vaatii enemmän aikaa puheluissa saavuttaaksesi sen.\n- Useimmat toiminnot ovat automaattisia—liity vain puheluun ja ala kerätä tasoja!\n\n**Komennot:**\n- `/stats` — Näytä omat VC-statuksesi ja tason edistymisesi.\n- `/leaderboard` — Katso 10 parasta käyttäjää, joilla on eniten VC-aikaa.\n\nNauti juttelusta ja katso kuka nousee tilastoissa!",
+    "stats_not_found": "Tilastoja ei löytynyt käyttäjälle {user}.",
+    "stats_reply": "{user} ääni-tilastot:\n- Kokonaisaika: **{time}**\n- Taso: **{level}**{next}",
+    "stats_next_level": "\n- Aikaa seuraavaan tasoon (**{level}**): <t:{timestamp}:R>",
+    "stats_next_level_static": "\n- Aikaa seuraavaan tasoon (**{level}**): **{time}**",
+    "stats_last_seen": "\n- Viimeksi nähty äänipuheluissa: <t:{lastseen}:R>",
+    "stats_max_level": "\n- Olet saavuttanut maksimijalan!",
+    "stats_error": "Virhe tilastojen haussa.",
+    "leaderboard_not_found": "Tilastotietoja ei löytynyt.",
+    "leaderboard_reply": "Top 10 ääni-tilaston kärjessä:\n{leaderboard}",
+    "leaderboard_error": "Virhe tilaston haussa."
 }

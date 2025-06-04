@@ -1,3 +1,13 @@
 {
-    "help": "これはヘルプテキストです。"
+    "help": "**VCLogBot ヘルプ**\n\nこのボットは、あなたのサーバーのVC（音声/ビデオチャット）レベルシステムを提供します！\n\n**仕組み:**\n- ボイスまたはビデオ通話の時間でレベルアップします。\n- 新しいレベルに必要な時間はどんどん増えます。\n- ほとんどの機能は自動です。通話に参加するだけでレベルアップ！\n\n**コマンド:**\n- `/stats` — 自分のVC統計とレベル進捗を表示します。\n- `/leaderboard` — 最もVC時間が長いトップ10ユーザーを見ることができます。\n\n楽しくチャットして、リーダーボードでの順位を目指しましょう！",
+    "stats_not_found": "{user} の統計情報が見つかりませんでした。",
+    "stats_reply": "{user} のボイス統計:\n- 合計時間: **{time}**\n- レベル: **{level}**{next}",
+    "stats_next_level": "\n- 次のレベル (**{level}**) までの時間: <t:{timestamp}:R>",
+    "stats_next_level_static": "\n- 次のレベル (**{level}**) までの時間: **{time}**",
+    "stats_last_seen": "\n- 最終VC利用: <t:{lastseen}:R>",
+    "stats_max_level": "\n- 最大レベルに達しています！",
+    "stats_error": "統計情報の取得中にエラーが発生しました。",
+    "leaderboard_not_found": "リーダーボードのデータが見つかりませんでした。",
+    "leaderboard_reply": "トップ10 ボイスリーダーボード:\n{leaderboard}",
+    "leaderboard_error": "リーダーボードの取得中にエラーが発生しました。"
 }

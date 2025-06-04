@@ -1,3 +1,13 @@
 {
-    "help": "Ovo je tekst pomoći."
+    "help": "**VCLogBot Pomoć**\n\nOvaj bot pruža sustav razina za VC (glasovni/video poziv) u vašem serveru!\n\n**Kako radi:**\n- Osvojite razine provodeći vrijeme u glasovnim ili video pozivima.\n- Svaka nova razina zahtijeva više vremena u pozivima za postizanje.\n- Većina značajki je automatska—samo se pridružite pozivu i počnite napredovati!\n\n**Komande:**\n- `/stats` — Pregledajte svoje VC statistike i napredak razine.\n- `/leaderboard` — Pogledajte top 10 korisnika s najviše VC vremena.\n\nUživajte u chatu i vidite tko se penje na ljestvici!",
+    "stats_not_found": "Nema statistika za {user}.",
+    "stats_reply": "{user} VC statistike:\n- Ukupno vrijeme: **{time}**\n- Razina: **{level}**{next}",
+    "stats_next_level": "\n- Vrijeme do sljedeće razine (**{level}**): <t:{timestamp}:R>",
+    "stats_next_level_static": "\n- Vrijeme do sljedeće razine (**{level}**): **{time}**",
+    "stats_last_seen": "\n- Zadnji put viđen u VC-u: <t:{lastseen}:R>",
+    "stats_max_level": "\n- Dostigli ste maksimalnu razinu!",
+    "stats_error": "Pogreška pri dohvaćanju statistika.",
+    "leaderboard_not_found": "Nema podataka o ljestvici.",
+    "leaderboard_reply": "Top 10 VC ljestvice:\n{leaderboard}",
+    "leaderboard_error": "Pogreška pri dohvaćanju ljestvice."
 }

@@ -5,11 +5,13 @@ import { loadLocales } from './src/locales.mjs';
 import { loadAndRegisterCommands } from './src/commands.mjs';
 import { createAndLoginDiscordClient } from './src/discord.mjs';
 import { setupShutdownHandlers } from './src/shutdown.mjs';
+import { sendMessage } from './src/custom/messageService.mjs';
 
 (async () => {
   try {
     registerExceptionHandlers();
     loadLocales();
+    global.messageService = { sendMessage };
     global.commands = await loadAndRegisterCommands();
     global.client = await createAndLoginDiscordClient();
     setupShutdownHandlers({ client: global.client });

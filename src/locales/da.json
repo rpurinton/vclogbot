@@ -1,3 +1,13 @@
 {
-    "help": "Dette er hjælpeteksten."
+    "help": "**VCLogBot Hjælp**\n\nDenne bot giver et VC (stemme/video chat) nivelleringssystem til din server!\n\n**Sådan fungerer det:**\n- Tjen niveauer ved at bruge tid i stemme- eller videoopkald.\n- Hvert nyt niveau kræver mere tid i opkald for at opnå.\n- De fleste funktioner er automatiske – bare deltag i et opkald og begynd at stige i niveau!\n\n**Kommandoer:**\n- `/stats` — Se dine egne VC-statistikker og niveau-fremskridt.\n- `/leaderboard` — Se de 10 bedste brugere med mest VC-tid.\n\nGod fornøjelse med at chatte og se, hvem der topper leaderboardet!",
+    "stats_not_found": "Ingen statistikker fundet for {user}.",
+    "stats_reply": "{user} stemmestatistik:\n- Total tid: **{time}**\n- Niveau: **{level}**{next}",
+    "stats_next_level": "\n- Tid til næste niveau (**{level}**): <t:{timestamp}:R>",
+    "stats_next_level_static": "\n- Tid til næste niveau (**{level}**): **{time}**",
+    "stats_last_seen": "\n- Sidst set i stemme: <t:{lastseen}:R>",
+    "stats_max_level": "\n- Du har nået maks niveau!",
+    "stats_error": "Fejl ved hentning af statistikker.",
+    "leaderboard_not_found": "Ingen leaderboard-data fundet.",
+    "leaderboard_reply": "Top 10 Voice Leaderboard:\n{leaderboard}",
+    "leaderboard_error": "Fejl ved hentning af leaderboard."
 }

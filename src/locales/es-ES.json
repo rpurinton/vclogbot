@@ -1,3 +1,13 @@
 {
-    "help": "Este es el texto de ayuda."
+    "help": "**VCLogBot Ayuda**\n\n¡Este bot proporciona un sistema de niveles por llamadas de voz/video para tu servidor!\n\n**Cómo funciona:**\n- Gana niveles pasando tiempo en llamadas de voz o video.\n- Cada nuevo nivel requiere más tiempo en llamadas para alcanzarlo.\n- La mayoría de las funciones son automáticas—solo únete a una llamada y comienza a subir de nivel.\n\n**Comandos:**\n- `/stats` — Ver tus propias estadísticas y progreso de nivel en VC.\n- `/leaderboard` — Ver los 10 mejores usuarios con más tiempo en VC.\n\n¡Disfruta chateando y mira quién escala en el ranking!",
+    "stats_not_found": "No se encontraron estadísticas para {user}.",
+    "stats_reply": "Estadísticas de voz de {user}:\n- Tiempo total: **{time}**\n- Nivel: **{level}**{next}",
+    "stats_next_level": "\n- Tiempo hasta el siguiente nivel (**{level}**): <t:{timestamp}:R>",
+    "stats_next_level_static": "\n- Tiempo hasta el siguiente nivel (**{level}**): **{time}**",
+    "stats_last_seen": "\n- Última vez visto en voz: <t:{lastseen}:R>",
+    "stats_max_level": "\n- ¡Has alcanzado el nivel máximo!",
+    "stats_error": "Error al obtener estadísticas.",
+    "leaderboard_not_found": "No se encontraron datos del ranking.",
+    "leaderboard_reply": "Top 10 de la Clasificación de Voz:\n{leaderboard}",
+    "leaderboard_error": "Error al obtener la clasificación."
 }

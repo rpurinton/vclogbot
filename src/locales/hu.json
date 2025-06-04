@@ -1,3 +1,13 @@
 {
-    "help": "Ez a súgószöveg."
+    "help": "**VCLogBot Segítség**\n\nEz a bot egy VC (hang/videó csevegés) szint rendszerrel rendelkezik a szervered számára!\n\n**Hogyan működik:**\n- Szinteket érhetsz el, ha időt töltesz hang- vagy videóhívásokban.\n- Minden új szint eléréséhez több időt kell eltöltened hívásokban.\n- A legtöbb funkció automatikus – csak csatlakozz egy híváshoz és kezdj el szintet lépni!\n\n**Parancsok:**\n- `/stats` — Tekintsd meg a saját VC statisztikáidat és szint előrehaladásodat.\n- `/leaderboard` — Nézd meg a 10 legjobb felhasználót a legtöbb VC idővel.\n\nJó csevegést, és nézd meg, ki jut fel a ranglistára!",
+    "stats_not_found": "Nincsenek statisztikák {user} számára.",
+    "stats_reply": "{user} hang statisztikái:\n- Teljes idő: **{time}**\n- Szint: **{level}**{next}",
+    "stats_next_level": "\n- Következő szintig szükséges idő (**{level}**): <t:{timestamp}:R>",
+    "stats_next_level_static": "\n- Következő szintig szükséges idő (**{level}**): **{time}**",
+    "stats_last_seen": "\n- Utoljára látva a hangban: <t:{lastseen}:R>",
+    "stats_max_level": "\n- Elérted a maximális szintet!",
+    "stats_error": "Hiba történt a statisztikák lekérésekor.",
+    "leaderboard_not_found": "Nincs elérhető ranglista adat.",
+    "leaderboard_reply": "Top 10 Hang Ranglista:\n{leaderboard}",
+    "leaderboard_error": "Hiba történt a ranglista lekérésekor."
 }

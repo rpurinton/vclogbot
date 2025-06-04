@@ -1,3 +1,13 @@
 {
-    "help": "Dit is de helptekst."
+    "help": "**VCLogBot Help**\n\nDeze bot biedt een VC (spraak/videochat) levelsysteem voor je server!\n\n**Hoe het werkt:**\n- Verdien levels door tijd door te brengen in spraak- of videogesprekken.\n- Elk nieuw level vereist meer tijd in gesprekken om te bereiken.\n- De meeste functies zijn automatisch—word gewoon lid van een gesprek en begin met levelen!\n\n**Commands:**\n- `/stats` — Bekijk je eigen VC stats en levelvoortgang.\n- `/leaderboard` — Zie de top 10 gebruikers met de meeste VC-tijd.\n\nVeel plezier met chatten en kijk wie er bovenaan de ranglijst komt!",
+    "stats_not_found": "Geen stats gevonden voor {user}.",
+    "stats_reply": "{user} voice stats:\n- Totale tijd: **{time}**\n- Level: **{level}**{next}",
+    "stats_next_level": "\n- Tijd tot volgend level (**{level}**): <t:{timestamp}:R>",
+    "stats_next_level_static": "\n- Tijd tot volgend level (**{level}**): **{time}**",
+    "stats_last_seen": "\n- Laatst gezien in spraak: <t:{lastseen}:R>",
+    "stats_max_level": "\n- Je hebt het maximale level bereikt!",
+    "stats_error": "Fout bij het ophalen van stats.",
+    "leaderboard_not_found": "Geen ranglijstgegevens gevonden.",
+    "leaderboard_reply": "Top 10 Voice Ranglijst:\n{leaderboard}",
+    "leaderboard_error": "Fout bij het ophalen van de ranglijst."
 }

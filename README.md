@@ -1,27 +1,25 @@
-# skeleton
+# vclogbot
 
-A modern Discord.js app template supporting locales, events, and slash commands.
+A Discord bot for tracking and rewarding voice channel activity with a leveling system, join/leave messages, and interactive stats commands.
 
 ---
 
 ## Features
 
-- **Easy command and event registration**: Just drop files in the right folders.
-- **Locale support**: Add or edit language files in `src/locales/`.
-- **Graceful shutdown and error handling**.
-- **Winston-based logging**.
-- **Environment-based configuration**.
-- **Systemd service template for production deployment**.
+- **Voice Channel Leveling System**: Tracks user time spent in voice channels and awards levels based on total time.
+- **Join/Leave Messages**: Announces when users join or leave voice channels, including late joins (e.g., after bot restarts or mute/unmute events).
+- **/stats Command**: Shows your current level, total voice time, and progress to the next level.
+- **/leaderboard Command**: Displays the top users in your server by voice channel activity.
+- **Automatic Session Recovery**: Handles missed join events and bot restarts, ensuring accurate tracking.
+- **Locale Support**: Easily add or edit language files in `src/locales/`.
+- **Winston-based Logging**: Detailed debug and error logs for troubleshooting.
+- **Systemd Service Template**: Ready for production deployment on Linux servers.
 
 ---
 
 ## Getting Started
 
-### 1. Fork this repository
-
-It's recommended to [fork](https://github.com/rpurinton/skeleton/fork) this repo to your own GitHub account before making changes. This allows you to pull upstream updates easily.
-
-### 2. Clone your fork
+### 1. Clone the repository
 
 ```sh
 # Replace <your-username> and <your-repo> with your GitHub info
@@ -29,21 +27,15 @@ git clone https://github.com/<your-username>/<your-repo>.git
 cd <your-repo>
 ```
 
-### 3. Rename for your project
-
-- Rename `skeleton.mjs` to your app's main file name (e.g., `myapp.mjs`).
-- Rename `skeleton.service` to match your app (e.g., `myapp.service`).
-- Update `package.json` with your own project name, description, author, and repository info.
-
-### 4. Install dependencies
+### 2. Install dependencies
 
 ```sh
 npm install
 ```
 
-### 5. Configure environment
+### 3. Configure environment
 
-Copy `.env.example` to `.env` if it exists, or create a `.env` file with your settings:
+Copy `.env.example` to `.env` and fill in your settings:
 
 ```sh
 cp .env.example .env
@@ -54,89 +46,59 @@ Edit the `.env` file:
 ```env
 DISCORD_TOKEN=your-app-token
 DISCORD_CLIENT_ID=your-client-id
+DB_HOST=localhost
+DB_USER=your-db-user
+DB_PASS=your-db-password
+DB_NAME=vclogbot
 LOG_LEVEL=info
 ```
 
-### 6. Run the app
+### 4. Run the bot
 
 ```sh
-node skeleton.mjs
-# or, if renamed:
-node myapp.mjs
+node vclogbot.mjs
 ```
+
+---
+
+## Usage
+
+### Voice Channel Leveling
+
+- Users earn experience by being in voice channels.
+- Levels are calculated using a triangular formula (each level requires more time).
+- Level-up messages are sent in the channel when a user advances.
+
+### Join/Leave Messages
+
+- The bot announces when users join or leave a voice channel.
+- If the bot was offline or missed a join event, it will detect the user on the next relevant event (e.g., mute/unmute) and start tracking.
+
+### Commands
+
+- `/stats` — Shows your current level, total time, and progress.
+- `/leaderboard` — Shows the top users by voice time in the server.
 
 ---
 
 ## Customization
 
-### Adding Commands
-
-- Place a JSON definition (e.g., `help.json`) in `src/commands/`.
-- Add a handler file with the same name and `.mjs` extension (e.g., `help.mjs`) in the same folder.
-- The handler should export a default async function.
-
-Example: `src/commands/ping.json`
-
-```json
-{
-  "name": "ping",
-  "description": "Replies with Pong!"
-}
-```
-
-Example: `src/commands/ping.mjs`
-
-```js
-export default async (interaction) => {
-  await interaction.reply('Pong!');
-};
-```
-
-### Adding Events
-
-- Place a file named after the Discord event (e.g., `messageCreate.mjs`) in `src/events/`.
-- Export a default function that takes the event arguments.
-
-Example: `src/events/messageCreate.mjs`
-
-```js
-export default (message) => {
-  if (message.content === '!hello') {
-    message.reply('Hello!');
-  }
-};
-```
-
-### Locales
-
-- Add or edit JSON files in `src/locales/` (e.g., `en-US.json`, `fr.json`).
-- Each file should export a flat object of key-value pairs.
-- The app loads all locale files at startup and makes them available globally.
-
-### Logging
-
-- Logging is handled by Winston.
-- Set `LOG_LEVEL` in your `.env` (`debug`, `info`, `warn`, `error`).
-
-### Error Handling & Shutdown
-
-- Uncaught exceptions and rejections are logged.
-- Graceful shutdown on `SIGTERM`, `SIGINT`, or `SIGHUP`.
-- The app will attempt to destroy the Discord client cleanly before exiting.
+- **Locales**: Add or edit JSON files in `src/locales/` for multi-language support.
+- **Logging**: Set `LOG_LEVEL` in your `.env` (`debug`, `info`, `warn`, `error`).
 
 ---
 
 ## Systemd Service Setup
 
-To run your app as a service on Linux, use the provided `skeleton.service` file.
+To run your app as a service on Linux, use the provided `vclogbot.service` file.
 
 **Update the paths and names to match your project.**
 
-Example `skeleton.service`:
+Example `vclogbot.service`:
 
 ```ini
 [Unit]
-Description=skeleton
+Description=vclogbot
 After=network-online.target
 Wants=network-online.target
 StartLimitBurst=3
@@ -147,9 +109,9 @@ User=appuser
 Group=appgroup
 RestartSec=5
 Restart=on-failure
-WorkingDirectory=/opt/skeleton
-ExecStart=/usr/bin/node /opt/skeleton/skeleton.mjs
-EnvironmentFile=/opt/skeleton/.env
+WorkingDirectory=/opt/vclogbot
+ExecStart=/usr/bin/node /opt/vclogbot/vclogbot.mjs
+EnvironmentFile=/opt/vclogbot/.env
 
 [Install]
 WantedBy=multi-user.target
@@ -160,7 +122,7 @@ WantedBy=multi-user.target
 1. Copy and rename the service file:
 
    ```sh
-   sudo cp skeleton.service /etc/systemd/system/myapp.service
+   sudo cp vclogbot.service /etc/systemd/system/myapp.service
    ```
 
 2. Edit the service file:
@@ -183,21 +145,21 @@ WantedBy=multi-user.target
 
 ```text
 src/
-  commands/    # Command definitions and handlers
-  events/      # Event handlers
-  locales/     # Locale JSON files
-  *.mjs       # Core logic (commands, events, logging, etc.)
+  commands/      # Slash command definitions and handlers
+  events/        # Event handlers (voice, message, etc.)
+  locales/       # Locale JSON files
+  custom/        # Leveling, timer, and utility logic
+  *.mjs          # Core logic
 ```
 
 ---
 
-## Best Practices & Tips
+## Best Practices
 
 - **Keep your app token secret!** Never commit your `.env` file or token to version control.
 - **Use a dedicated, non-root user** for running your app in production.
-- **Regularly pull upstream changes** if you want to keep your fork up to date.
-- **Write tests** for your command and event handlers if your app grows in complexity.
-- **Check Discord.js documentation** for new features and event names: [https://discord.js.org/](https://discord.js.org/)
+- **Monitor logs** for errors or unusual activity.
+- **Check Discord.js documentation** for new features: [https://discord.js.org/](https://discord.js.org/)
 
 ---
 
@@ -205,7 +167,7 @@ src/
 
 MIT
 
-## Developer Support
+## Support
 
 Email: <russell.purinton@gmail.com>
 Discord: laozi101

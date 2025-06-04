@@ -10,22 +10,14 @@ export default async function (interaction) {
             flags: 1 << 6, // EPHEMERAL
         });
     } catch (err) {
-        log.error("Error in /help handler", {
-            errorMessage: err && err.message,
-            errorStack: err && err.stack,
-            errorObj: err
-        });
+        log.error("Error in /help handler", err);
         try {
             await interaction.reply({
                 content: "An error occurred while processing your request.",
                 flags: 1 << 6,
             });
         } catch (e) {
-            log.error("Failed to reply with error message", {
-                errorMessage: e && e.message,
-                errorStack: e && e.stack,
-                errorObj: e
-            });
+            log.error("Failed to reply with error message", e);
         }
     }
 }

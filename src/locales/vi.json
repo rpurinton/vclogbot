@@ -1,3 +1,13 @@
 {
-    "help": "Đây là văn bản trợ giúp."
+    "help": "**VCLogBot Trợ giúp**\n\nBot này cung cấp hệ thống cấp độ VC (chat thoại/video) cho server của bạn!\n\n**Cách hoạt động:**\n- Kiếm cấp bằng cách dành thời gian trong cuộc gọi thoại hoặc video.\n- Mỗi cấp mới yêu cầu nhiều thời gian hơn trong cuộc gọi để đạt được.\n- Hầu hết các tính năng diễn ra tự động—chỉ cần tham gia cuộc gọi và bắt đầu thăng cấp!\n\n**Lệnh:**\n- `/stats` — Xem thống kê VC và tiến trình cấp của bạn.\n- `/leaderboard` — Xem top 10 người dùng có thời gian VC nhiều nhất.\n\nHãy tận hưởng cuộc trò chuyện và xem ai leo lên bảng xếp hạng!",
+    "stats_not_found": "Không tìm thấy thống kê cho {user}.",
+    "stats_reply": "Thống kê thoại của {user}:\n- Tổng thời gian: **{time}**\n- Cấp độ: **{level}**{next}",
+    "stats_next_level": "\n- Thời gian đến cấp tiếp theo (**{level}**): <t:{timestamp}:R>",
+    "stats_next_level_static": "\n- Thời gian đến cấp tiếp theo (**{level}**): **{time}**",
+    "stats_last_seen": "\n- Lần cuối nhìn thấy trong thoại: <t:{lastseen}:R>",
+    "stats_max_level": "\n- Bạn đã đạt cấp tối đa!",
+    "stats_error": "Lỗi khi lấy thống kê.",
+    "leaderboard_not_found": "Không tìm thấy dữ liệu bảng xếp hạng.",
+    "leaderboard_reply": "Top 10 Bảng Xếp Hạng Giọng Nói:\n{leaderboard}",
+    "leaderboard_error": "Lỗi khi lấy bảng xếp hạng."
 }

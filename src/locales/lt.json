@@ -1,3 +1,13 @@
 {
-    "help": "Tai yra pagalbos tekstas."
+    "help": "**VCLogBot Pagalba**\n\nŠis botas teikia VC (balso/vaizdo pokalbių) lygių sistemą jūsų serveryje!\n\n**Kaip tai veikia:**\n- Užsidirbk lygius praleisdamas laiką balso arba vaizdo skambučiuose.\n- Kiekvienam naujam lygiui pasiekti reikia daugiau laiko pokalbiuose.\n- Dauguma funkcijų veikia automatiškai – tiesiog prisijunk prie skambučio ir pradėk keltis lygiu!\n\n**Komandos:**\n- `/stats` — Peržiūrėk savo VC statistiką ir lygių progresą.\n- `/leaderboard` — Pažiūrėk top 10 vartotojų su daugiausiai VC laiko.\n\nMėgaukis pokalbiais ir stebėk, kas užkopia į lyderių sąrašą!",
+    "stats_not_found": "Nerasta statistikos vartotojui {user}.",
+    "stats_reply": "{user} balso statistika:\n- Bendras laikas: **{time}**\n- Lygis: **{level}**{next}",
+    "stats_next_level": "\n- Laikas iki kito lygio (**{level}**): <t:{timestamp}:R>",
+    "stats_next_level_static": "\n- Laikas iki kito lygio (**{level}**): **{time}**",
+    "stats_last_seen": "\n- Paskutinį kartą matytas balse: <t:{lastseen}:R>",
+    "stats_max_level": "\n- Pasiekei maksimalų lygį!",
+    "stats_error": "Klaida gaunant statistiką.",
+    "leaderboard_not_found": "Nerasta lyderių sąrašo duomenų.",
+    "leaderboard_reply": "Top 10 balso lyderių sąrašas:\n{leaderboard}",
+    "leaderboard_error": "Klaida gaunant lyderių sąrašą."
 }
