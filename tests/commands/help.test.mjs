@@ -1,8 +1,8 @@
 import { jest } from '@jest/globals';
-import createHelpHandler from '../../src/commands/help.mjs';
+import helpHandler from '../../src/commands/help.mjs';
 
 describe('/help command handler', () => {
-    let mockLog, mockGetMsg, handler, interaction;
+    let mockLog, mockGetMsg, interaction;
 
     beforeEach(() => {
         mockLog = { error: jest.fn() };
@@ -11,15 +11,14 @@ describe('/help command handler', () => {
             locale: 'en-US',
             reply: jest.fn().mockResolvedValue()
         };
-        handler = createHelpHandler({
-            log: mockLog,
-            getMsg: mockGetMsg
-        });
     });
 
     it('replies with help content', async () => {
         mockGetMsg.mockReturnValueOnce('Help content here.');
-        await handler(interaction);
+        await helpHandler(interaction, {
+            log: mockLog,
+            getMsg: mockGetMsg
+        });
         expect(interaction.reply).toHaveBeenCalledWith({
             content: 'Help content here.',
             flags: 1 << 6
@@ -28,7 +27,10 @@ describe('/help command handler', () => {
 
     it('handles error and replies with error message', async () => {
         mockGetMsg.mockImplementation(() => { throw new Error('fail'); });
-        await handler(interaction);
+        await helpHandler(interaction, {
+            log: mockLog,
+            getMsg: mockGetMsg
+        });
         expect(mockLog.error).toHaveBeenCalledWith('Error in /help handler', expect.any(Error));
         expect(interaction.reply).toHaveBeenCalledWith({
             content: 'An error occurred while processing your request.',
@@ -39,7 +41,10 @@ describe('/help command handler', () => {
     it('logs error if reply with error message fails', async () => {
         mockGetMsg.mockImplementation(() => { throw new Error('fail'); });
         interaction.reply.mockRejectedValueOnce(new Error('fail2'));
-        await handler(interaction);
+        await helpHandler(interaction, {
+            log: mockLog,
+            getMsg: mockGetMsg
+        });
         expect(mockLog.error).toHaveBeenCalledWith('Failed to reply with error message', expect.any(Error));
     });
 });

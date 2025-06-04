@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import createReadyHandler from '../../src/events/ready.mjs';
+import readyHandler from '../../src/events/ready.mjs';
 
 // Mock objects
 function createMockClient() {
@@ -12,7 +12,7 @@ function createMockClient() {
 }
 
 describe('ready event handler', () => {
-    let mockLog, mockTimerFunction, handler, client;
+    let mockLog, mockTimerFunction, client;
 
     beforeEach(() => {
         mockLog = {
@@ -20,7 +20,6 @@ describe('ready event handler', () => {
             error: jest.fn(),
         };
         mockTimerFunction = jest.fn().mockResolvedValue();
-        handler = createReadyHandler({ log: mockLog, timerFunction: mockTimerFunction });
         client = createMockClient();
         jest.useFakeTimers();
     });
@@ -30,13 +29,13 @@ describe('ready event handler', () => {
     });
 
     it('logs in and sets presence', async () => {
-        await handler(client);
+        await readyHandler(client, { log: mockLog, timerFunction: mockTimerFunction });
         expect(mockLog.info).toHaveBeenCalledWith('Logged in as TestUser#1234');
         expect(client.user.setPresence).toHaveBeenCalledWith({ activities: [{ name: '🎧 VC Leveling', type: 4 }], status: 'online' });
     });
 
     it('calls timerFunction immediately and on interval', async () => {
-        await handler(client);
+        await readyHandler(client, { log: mockLog, timerFunction: mockTimerFunction });
         expect(mockTimerFunction).toHaveBeenCalledTimes(1);
         jest.advanceTimersByTime(60000);
         // Wait for the interval callback to run
@@ -46,7 +45,7 @@ describe('ready event handler', () => {
 
     it('logs error if timerFunction throws', async () => {
         mockTimerFunction.mockRejectedValueOnce(new Error('fail'));
-        await handler(client);
+        await readyHandler(client, { log: mockLog, timerFunction: mockTimerFunction });
         // The error should be logged from the initial call
         expect(mockLog.error).toHaveBeenCalledWith('Error in timerFunction:', expect.any(Error));
         // Now advance the timer and ensure no additional error log (since next call resolves)
