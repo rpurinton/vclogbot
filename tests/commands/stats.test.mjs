@@ -11,7 +11,13 @@ describe('/stats command handler', () => {
         mockDb = { query: jest.fn() };
         mockFormatTime = jest.fn((s) => `${s}s`);
         mockRequiredSecondsForLevel = jest.fn((lvl) => lvl * 100);
-        mockGetMsg = jest.fn((locale, key, fallback) => fallback);
+        mockGetMsg = jest.fn((locale, key, fallback) => {
+            if (key === 'stats_reply') {
+                // Simulate the real locale string with {sessions} placeholder
+                return '{user} voice stats:\n- Total time: **{time}**\n- Level: **{level}**{next}{sessions}';
+            }
+            return fallback;
+        });
         jest.useFakeTimers().setSystemTime(now);
         interaction = {
             user: { id: 'user1' },
@@ -58,12 +64,29 @@ describe('/stats command handler', () => {
             content: expect.stringContaining('voice stats:'),
             flags: expect.any(Number)
         }));
-        // should include session summary stats
+        // should include session summary stats using the locale placeholder
         expect(interaction.reply).toHaveBeenCalledWith(expect.objectContaining({
             content: expect.stringContaining('Total sessions: **5**'),
         }));
+        expect(interaction.reply).toHaveBeenCalledWith(expect.objectContaining({
+            content: expect.stringContaining('Avg session: **120s**'),
+        }));
+        expect(interaction.reply).toHaveBeenCalledWith(expect.objectContaining({
+            content: expect.stringContaining('Longest session: **300s**'),
+        }));
         expect(mockFormatTime).toHaveBeenCalledWith(150);
         expect(mockRequiredSecondsForLevel).toHaveBeenCalledWith(2);
+        // check that getMsg is called for both stats_sessions and stats_reply
+        expect(mockGetMsg).toHaveBeenCalledWith(
+            'en-US',
+            'stats_sessions',
+            expect.stringContaining('Total sessions:')
+        );
+        expect(mockGetMsg).toHaveBeenCalledWith(
+            'en-US',
+            'stats_reply',
+            expect.stringContaining('voice stats:')
+        );
     });
 
     it('replies with stats for user in call', async () => {
@@ -82,10 +105,27 @@ describe('/stats command handler', () => {
             content: expect.stringContaining('voice stats:'),
             flags: expect.any(Number)
         }));
-        // should include session summary stats
+        // should include session summary stats using the locale placeholder
         expect(interaction.reply).toHaveBeenCalledWith(expect.objectContaining({
             content: expect.stringContaining('Total sessions: **3**'),
         }));
+        expect(interaction.reply).toHaveBeenCalledWith(expect.objectContaining({
+            content: expect.stringContaining('Avg session: **130s**'),
+        }));
+        expect(interaction.reply).toHaveBeenCalledWith(expect.objectContaining({
+            content: expect.stringContaining('Longest session: **260s**'),
+        }));
+        // check that getMsg is called for both stats_sessions and stats_reply
+        expect(mockGetMsg).toHaveBeenCalledWith(
+            'en-US',
+            'stats_sessions',
+            expect.stringContaining('Total sessions:')
+        );
+        expect(mockGetMsg).toHaveBeenCalledWith(
+            'en-US',
+            'stats_reply',
+            expect.stringContaining('voice stats:')
+        );
     });
 
     it('handles error and replies with error message', async () => {
