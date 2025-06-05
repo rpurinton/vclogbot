@@ -45,7 +45,8 @@ describe('/stats command handler', () => {
         mockDb.query
             .mockResolvedValueOnce([[{ total_seconds: 150, last_level: 1 }]]) // user stats
             .mockResolvedValueOnce([[]]) // not in call
-            .mockResolvedValueOnce([[{ leave_time: now.toISOString() }]]); // last seen
+            .mockResolvedValueOnce([[{ leave_time: now.toISOString() }]]) // last seen
+            .mockResolvedValueOnce([[{ session_count: 5, avg_length: 120, max_length: 300 }]]); // session summary
         await statsHandler(interaction, {
             log: mockLog,
             db: mockDb,
@@ -57,6 +58,10 @@ describe('/stats command handler', () => {
             content: expect.stringContaining('voice stats:'),
             flags: expect.any(Number)
         }));
+        // should include session summary stats
+        expect(interaction.reply).toHaveBeenCalledWith(expect.objectContaining({
+            content: expect.stringContaining('Total sessions: **5**'),
+        }));
         expect(mockFormatTime).toHaveBeenCalledWith(150);
         expect(mockRequiredSecondsForLevel).toHaveBeenCalledWith(2);
     });
@@ -64,7 +69,8 @@ describe('/stats command handler', () => {
     it('replies with stats for user in call', async () => {
         mockDb.query
             .mockResolvedValueOnce([[{ total_seconds: 200, last_level: 2 }]]) // user stats
-            .mockResolvedValueOnce([[{ join_time: now.toISOString() }]]); // in call
+            .mockResolvedValueOnce([[{ join_time: now.toISOString() }]]) // in call
+            .mockResolvedValueOnce([[{ session_count: 3, avg_length: 130, max_length: 260 }]]); // session summary
         await statsHandler(interaction, {
             log: mockLog,
             db: mockDb,
@@ -75,6 +81,10 @@ describe('/stats command handler', () => {
         expect(interaction.reply).toHaveBeenCalledWith(expect.objectContaining({
             content: expect.stringContaining('voice stats:'),
             flags: expect.any(Number)
+        }));
+        // should include session summary stats
+        expect(interaction.reply).toHaveBeenCalledWith(expect.objectContaining({
+            content: expect.stringContaining('Total sessions: **3**'),
         }));
     });
 
