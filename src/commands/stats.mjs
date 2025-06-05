@@ -79,20 +79,25 @@ export default async function (interaction, { log: injectedLog = log, db: inject
         const { session_count, avg_length, max_length } = sessionStats;
         const avgStr = injectedFormatTime(Math.round(avg_length) || 0);
         const maxStr = injectedFormatTime(max_length || 0);
-        const sessionStatsMsg = `\n- Total sessions: **${session_count}**\n- Avg session: **${avgStr}**\n- Longest session: **${maxStr}**`;
+        const sessionStatsMsg = injectedGetMsg(
+            interaction.locale,
+            'stats_sessions',
+            `\n- Total sessions: **${session_count}**\n- Avg session: **${avgStr}**\n- Longest session: **${maxStr}**`
+        )
+            .replace('{count}', session_count)
+            .replace('{avg}', avgStr)
+            .replace('{max}', maxStr);
         await interaction.reply({
             content: injectedGetMsg(
                 interaction.locale,
                 'stats_reply',
                 `${userToQuery.id === interaction.user.id ? 'Your' : `<@${userToQuery.id}>'s`} voice stats:`
-                + `\n- Total time: **${injectedFormatTime(total_seconds)}**`
-                + `\n- Level: **${last_level}**`
-                + `${nextLevelMsg}`
-                + `${sessionStatsMsg}`
-            ).replace('{user}', userToQuery.id === interaction.user.id ? 'Your' : `<@${userToQuery.id}>'s`)
-            .replace('{time}', injectedFormatTime(total_seconds))
-            .replace('{level}', last_level)
-            .replace('{next}', nextLevelMsg)
+            )
+                .replace('{user}', userToQuery.id === interaction.user.id ? 'Your' : `<@${userToQuery.id}>'s`)
+                .replace('{time}', injectedFormatTime(total_seconds))
+                .replace('{level}', last_level)
+                .replace('{next}', nextLevelMsg)
+                .replace('{sessions}', sessionStatsMsg)
             + (lastSeenMsg || ''),
             flags: 1 << 6,
         });
