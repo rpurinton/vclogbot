@@ -82,8 +82,8 @@ describe('locales.mjs', () => {
   it('getMsg returns correct message and falls back', () => {
     locales['en-US'] = { help: 'Help text' };
     delete locales['es-ES'];
-    expect(getMsg('en-US', 'help')).toBe('Help text');
+    expect(getMsg('en-US', 'help', undefined, mockLogger)).toBe('Help text');
     delete locales['en-US'];
-    expect(getMsg('es-ES', 'help', 'default')).toBe('default');
+    expect(getMsg('es-ES', 'help', 'default', mockLogger)).toBe('default');
   });
 });

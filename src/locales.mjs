@@ -42,18 +42,18 @@ export const clearLocales = () => {
     Object.keys(locales).forEach(key => delete locales[key]);
 };
 
-export const getMsg = (locale, key, defaultValue = 'An error occurred :(') => {
+export const getMsg = (locale, key, defaultValue = 'An error occurred :(', logger = log) => {
     if (!locales[locale]) {
-        log.warn(`Locale "${locale}" not found, falling back to default.`);
+        logger.warn(`Locale "${locale}" not found, falling back to default.`);
         locale = 'en-US';
     }
     if (!locales[locale]) {
-        log.error(`Default locale "en-US" not found. Returning default value.`);
+        logger.error(`Default locale "en-US" not found. Returning default value.`);
         return defaultValue;
     }
     const msg = locales[locale][key];
     if (msg === undefined) {
-        log.warn(`Key "${key}" not found in locale "${locale}", returning default value.`);
+        logger.warn(`Key "${key}" not found in locale "${locale}", returning default value.`);
         return defaultValue;
     }
     return msg;
