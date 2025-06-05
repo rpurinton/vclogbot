@@ -66,16 +66,33 @@ export default async function (interaction, { log: injectedLog = log, db: inject
                     .replace('{lastseen}', lastSeenTimestamp);
             }
         }
+        // Fetch session summary stats
+        const [[sessionStats]] = await injectedDb.query(
+          `SELECT
+             COUNT(*) AS session_count,
+             AVG(TIMESTAMPDIFF(SECOND, join_time, leave_time)) AS avg_length,
+             MAX(TIMESTAMPDIFF(SECOND, join_time, leave_time)) AS max_length
+           FROM sessions
+           WHERE user_id = ? AND guild_id = ? AND leave_time IS NOT NULL`,
+          [userToQuery.id, guildId]
+        );
+        const { session_count, avg_length, max_length } = sessionStats;
+        const avgStr = injectedFormatTime(Math.round(avg_length) || 0);
+        const maxStr = injectedFormatTime(max_length || 0);
+        const sessionStatsMsg = `\n- Total sessions: **${session_count}**\n- Avg session: **${avgStr}**\n- Longest session: **${maxStr}**`;
         await interaction.reply({
             content: injectedGetMsg(
                 interaction.locale,
                 'stats_reply',
-                `${userToQuery.id === interaction.user.id ? 'Your' : `<@${userToQuery.id}>'s`} voice stats:\n- Total time: **${injectedFormatTime(total_seconds)}**\n- Level: **${last_level}**${nextLevelMsg}`
-            )
-                .replace('{user}', userToQuery.id === interaction.user.id ? 'Your' : `<@${userToQuery.id}>'s`)
-                .replace('{time}', injectedFormatTime(total_seconds))
-                .replace('{level}', last_level)
-                .replace('{next}', nextLevelMsg)
+                `${userToQuery.id === interaction.user.id ? 'Your' : `<@${userToQuery.id}>'s`} voice stats:`
+                + `\n- Total time: **${injectedFormatTime(total_seconds)}**`
+                + `\n- Level: **${last_level}**`
+                + `${nextLevelMsg}`
+                + `${sessionStatsMsg}`
+            ).replace('{user}', userToQuery.id === interaction.user.id ? 'Your' : `<@${userToQuery.id}>'s`)
+            .replace('{time}', injectedFormatTime(total_seconds))
+            .replace('{level}', last_level)
+            .replace('{next}', nextLevelMsg)
             + (lastSeenMsg || ''),
             flags: 1 << 6,
         });
