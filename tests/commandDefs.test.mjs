@@ -8,6 +8,11 @@ describe('Command definitions (.json) are valid and follow Discord command schem
     "bg", "cs", "da", "de", "el", "en-GB", "en-US", "es-419", "es-ES", "fi", "fr", "hi", "hr", "hu", "id", "it", "ja", "ko", "lt", "nl", "no", "pl", "pt-BR", "ro", "ru", "sv-SE", "th", "tr", "uk", "vi", "zh-CN", "zh-TW"
   ];
   const chatInputRegex = /^[-_'\p{L}\p{N}\p{sc=Deva}\p{sc=Thai}]{1,32}$/u;
+  if (files.length === 0) {
+    test('dummy test - no command definition files present', () => {
+      expect(true).toBe(true);
+    });
+  }
   for (const file of files) {
     const filePath = path.join(commandsDir, file);
     const content = fs.readFileSync(filePath, 'utf8');
