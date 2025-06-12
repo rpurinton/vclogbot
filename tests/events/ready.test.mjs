@@ -31,7 +31,11 @@ describe('ready event handler', () => {
     it('logs in and sets presence', async () => {
         await readyHandler(client, { log: mockLog, timerFunction: mockTimerFunction });
         expect(mockLog.info).toHaveBeenCalledWith('Logged in as TestUser#1234');
-        expect(client.user.setPresence).toHaveBeenCalledWith({ activities: [{ name: '🎧 VC Leveling', type: 4 }], status: 'online' });
+        // Accept any version string in the presence name
+        const presenceArg = client.user.setPresence.mock.calls[0][0];
+        expect(presenceArg.activities[0].name).toMatch(/^🎧 Leveling v/);
+        expect(presenceArg.activities[0].type).toBe(4);
+        expect(presenceArg.status).toBe('online');
     });
 
     it('calls timerFunction immediately and on interval', async () => {

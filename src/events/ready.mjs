@@ -7,7 +7,7 @@ import { getCurrentDirname } from '../esm-filename.mjs';
 
 
 // Event handler for ready
-export default async function (client) {
+export default async function (client, { log: injectedLog = log, timerFunction: injectedTimerFunction = timerFunction } = {}) {
     // Dynamically load version from package.json
     const dirname = getCurrentDirname(import.meta);
     const pkgPath = join(dirname, '../../package.json');
@@ -38,5 +38,5 @@ export default async function (client) {
             injectedLog.error('Error in timerFunction:', error);
         }
     }, 60000); // Run every minute
-    log.info(`Logged in as ${client.user.tag}`);
+    injectedLog.info(`Logged in as ${client.user.tag}`);
 }
