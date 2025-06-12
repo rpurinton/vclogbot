@@ -1,17 +1,18 @@
-import db from '../db.mjs';
+import dbPromise from '../db.mjs';
 import log from '../log.mjs';
 import { getCurrentTimestamp } from '../custom/utils.mjs';
 import { timerFunction } from '../custom/timer.mjs';
 
 // Event handler for voiceStateUpdate (standard event export style)
-export default async function (oldState, newState, { db: injectedDb = db, log: injectedLog = log, timerFunction: injectedTimerFunction = timerFunction, getCurrentTimestamp: injectedGetCurrentTimestamp = getCurrentTimestamp, messageService = global.messageService } = {}) {
+export default async function (oldState, newState, { db: injectedDb, log: injectedLog = log, timerFunction: injectedTimerFunction = timerFunction, getCurrentTimestamp: injectedGetCurrentTimestamp = getCurrentTimestamp, messageService = global.messageService } = {}) {
+    const db = injectedDb || await dbPromise;
     try {
         injectedLog.debug(`VoiceStateUpdate: oldState=${JSON.stringify(oldState)}, newState=${JSON.stringify(newState)}`);
         // User leaves a voice channel
         if (oldState.channelId && !newState.channelId) {
             try {
                 // Check for existing open session
-                const [openSessionRows] = await injectedDb.query(
+                const [openSessionRows] = await db.query(
                     `SELECT * FROM sessions WHERE user_id = ? AND guild_id = ? AND leave_time IS NULL`,
                     [oldState.id, oldState.guild?.id]
                 );
@@ -22,7 +23,7 @@ export default async function (oldState, newState, { db: injectedDb = db, log: i
                     // Set leave_time for the session
                     const now = new Date();
                     const mysqlDatetime = now.toISOString().slice(0, 19).replace('T', ' ');
-                    await injectedDb.query(
+                    await db.query(
                         `UPDATE sessions SET leave_time = ? WHERE id = ?`,
                         [mysqlDatetime, openSession.id]
                     );
@@ -38,7 +39,7 @@ export default async function (oldState, newState, { db: injectedDb = db, log: i
             // Any event where the user is in a channel (join, mute/unmute, etc)
             try {
                 // Check for existing open session
-                const [openSessionRows] = await injectedDb.query(
+                const [openSessionRows] = await db.query(
                     `SELECT * FROM sessions WHERE user_id = ? AND guild_id = ? AND leave_time IS NULL`,
                     [newState.id, newState.guild?.id]
                 );
@@ -47,7 +48,7 @@ export default async function (oldState, newState, { db: injectedDb = db, log: i
                     // Insert new session (late join or missed join event)
                     const now = new Date();
                     const mysqlDatetime = now.toISOString().slice(0, 19).replace('T', ' ');
-                    await injectedDb.query(
+                    await db.query(
                         `INSERT INTO sessions (user_id, guild_id, channel_id, join_time) VALUES (?, ?, ?, ?)`,
                         [newState.id, newState.guild?.id, newState.channelId, mysqlDatetime]
                     );
