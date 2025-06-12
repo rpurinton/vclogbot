@@ -1,9 +1,10 @@
 // Timer utility for periodic level-up checks
-import db from '../db.mjs';
+import dbPromise from '../db.mjs';
 import log from '../log.mjs';
 import { calculateLevel, requiredSecondsForLevel, getCurrentTimestamp } from './utils.mjs';
 
 export const timerFunction = async () => {
+    const db = await dbPromise;
     try {
         log.debug('Timer function started');
         // Use db.query for mysql2

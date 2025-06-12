@@ -1,13 +1,14 @@
 import log from '../log.mjs';
-import db from '../db.mjs';
+import dbPromise from '../db.mjs';
 import { formatTime } from '../custom/utils.mjs';
 import { getMsg } from '../locales.mjs';
 
 // Command handler for /leaderboard (standard event export style)
-export default async function (interaction, { log: injectedLog = log, db: injectedDb = db, formatTime: injectedFormatTime = formatTime, getMsg: injectedGetMsg = getMsg } = {}) {
+export default async function (interaction, { log: injectedLog = log, db: injectedDb, formatTime: injectedFormatTime = formatTime, getMsg: injectedGetMsg = getMsg } = {}) {
+    const db = injectedDb || await dbPromise;
     try {
         const guildId = interaction.guildId;
-        const [rows] = await injectedDb.query(
+        const [rows] = await db.query(
             'SELECT user_id, total_seconds, last_level FROM users WHERE guild_id = ? ORDER BY total_seconds DESC LIMIT 10',
             [guildId]
         );

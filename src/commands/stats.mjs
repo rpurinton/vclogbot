@@ -1,16 +1,17 @@
 import log from '../log.mjs';
-import db from '../db.mjs';
+import dbPromise from '../db.mjs';
 import { formatTime } from '../custom/utils.mjs';
 import { requiredSecondsForLevel } from '../custom/utils.mjs';
 import { getMsg } from '../locales.mjs';
 
 // Command handler for /stats (standard event export style)
-export default async function (interaction, { log: injectedLog = log, db: injectedDb = db, formatTime: injectedFormatTime = formatTime, requiredSecondsForLevel: injectedRequiredSecondsForLevel = requiredSecondsForLevel, getMsg: injectedGetMsg = getMsg } = {}) {
+export default async function (interaction, { log: injectedLog = log, db: injectedDb, formatTime: injectedFormatTime = formatTime, requiredSecondsForLevel: injectedRequiredSecondsForLevel = requiredSecondsForLevel, getMsg: injectedGetMsg = getMsg } = {}) {
+    const db = injectedDb || await dbPromise;
     try {
         const userOption = interaction.options.getUser && interaction.options.getUser('user');
         const userToQuery = userOption || interaction.user;
         const guildId = interaction.guildId;
-        const [rows] = await injectedDb.query(
+        const [rows] = await db.query(
             'SELECT total_seconds, last_level FROM users WHERE user_id = ? AND guild_id = ?',
             [userToQuery.id, guildId]
         );
@@ -27,7 +28,7 @@ export default async function (interaction, { log: injectedLog = log, db: inject
         const required = injectedRequiredSecondsForLevel(nextLevel);
         const remaining = Math.max(0, required - total_seconds);
         // Check if user is currently in a call (open session)
-        const [sessionRows] = await injectedDb.query(
+        const [sessionRows] = await db.query(
             'SELECT join_time FROM sessions WHERE user_id = ? AND guild_id = ? AND leave_time IS NULL ORDER BY join_time DESC LIMIT 1',
             [userToQuery.id, guildId]
         );
@@ -56,7 +57,7 @@ export default async function (interaction, { log: injectedLog = log, db: inject
                 nextLevelMsg = injectedGetMsg(interaction.locale, 'stats_max_level', '\n- You have reached the max level!');
             }
             // Find last time user left a call
-            const [lastSessionRows] = await injectedDb.query(
+            const [lastSessionRows] = await db.query(
                 'SELECT leave_time FROM sessions WHERE user_id = ? AND guild_id = ? AND leave_time IS NOT NULL ORDER BY leave_time DESC LIMIT 1',
                 [userToQuery.id, guildId]
             );
@@ -67,7 +68,7 @@ export default async function (interaction, { log: injectedLog = log, db: inject
             }
         }
         // Fetch session summary stats
-        const [[sessionStats]] = await injectedDb.query(
+        const [[sessionStats]] = await db.query(
           `SELECT
              COUNT(*) AS session_count,
              AVG(TIMESTAMPDIFF(SECOND, join_time, leave_time)) AS avg_length,
